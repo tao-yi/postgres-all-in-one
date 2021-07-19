@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  database:
+    image: bitnami/postgresql:latest # use latest official postgres version
+    environment:
+      - POSTGRESQL_USERNAME=treelab
+      - POSTGRESQL_PASSWORD=treelab
+      - POSTGRESQL_POSTGRES_PASSWORD=postgres
+    ports:
+      - 5435:5432
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+      # When the container is executed for the first time,
+      # it will execute the files with extensions .sh, .sql and .sql.gz located at /docker-entrypoint-initdb.d.
+      - ./migration/init.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  database-data:
